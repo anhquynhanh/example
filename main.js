@@ -153,3 +153,62 @@ document.getElementById("main-contact").scrollIntoView({ behavior: "smooth" });
 productsLink.addEventListener("click", () => {
 document.getElementById("listProduct").scrollIntoView({ behavior: "smooth" });
 });
+
+// form
+
+document.addEventListener("DOMContentLoaded", function() {
+    const form = document.querySelector("form")
+    const yourNameInput = document.getElementById("yourName")
+    const yourGmailInput = document.getElementById("yourGmail")
+    const yourMessInput = document.getElementById("yourMess")
+
+    form.addEventListener("submit", function(event) {
+        event.preventDefault(); // Ngăn form gửi dữ liệu đi
+
+        // Lưu dữ liệu vào Local Storage hoặc nơi lưu trữ khác
+        const formData = {
+            name: yourNameInput.value,
+            gmail: yourGmailInput.value,
+            message: yourMessInput.value
+        };
+
+        // Reset form
+        yourNameInput.value = ""
+        yourGmailInput.value = ""
+        yourMessInput.value = ""
+
+        // Lưu dữ liệu vào Local Storage
+        saveFormDataToLocalStorage(formData)
+
+        // Hiển thị thông báo
+        alert("Thank you for sending us the form!")
+
+        // Cập nhật hiển thị trên website
+        updateFormDisplay()
+    })
+})
+
+function saveFormDataToLocalStorage(formData) {
+    // Lấy dữ liệu từ Local Storage (nếu có)
+    let savedData = localStorage.getItem("formData")
+    if (!savedData) {
+        savedData = []
+    } else {
+        savedData = JSON.parse(savedData)
+    }
+
+    // Thêm dữ liệu mới
+    savedData.push(formData);
+
+    // Lưu lại vào Local Storage
+    localStorage.setItem("formData", JSON.stringify(savedData))
+}
+console.log(saveCartToLocalStorage)
+
+function updateFormDisplay() {
+    // Cập nhật hiển thị trạng thái form trên website
+    const formInputs = document.querySelectorAll("input, textarea")
+    formInputs.forEach(input => {
+        input.value = ""
+    })
+}
